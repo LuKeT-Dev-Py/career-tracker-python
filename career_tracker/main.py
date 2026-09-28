@@ -1,4 +1,5 @@
 from validacoes.status import validar_status
+from validacoes.empresa import empresa_preenchida
 from candidaturas.operacoes import exibir_candidatura
 
 
@@ -8,7 +9,10 @@ print('')
 print(status_validos)
 status = input('Qual status da candidatura: ').lower()
 
-if validar_status(status):
-    exibir_candidatura(empresa, status)
+if empresa_preenchida(empresa):
+    if validar_status(status):
+        exibir_candidatura(empresa, status)
+    else:
+        print('Status invalido.')
 else:
-    print('Erro')
+    print('Empresa invalida.')
