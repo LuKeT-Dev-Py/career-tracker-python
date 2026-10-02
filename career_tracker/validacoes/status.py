@@ -1,6 +1,9 @@
 def validar_status(status):
-    permitidos = ('enviada', 'entrevista', 'recusada')
+    permitidos = ('enviada', 'entrevista', 'recusada') 
     if status in permitidos:
         return True
     else:
         return False
+    
+def normalizar_status(texto):
+    return texto.strip().lower()
