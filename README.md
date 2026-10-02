@@ -1,86 +1,100 @@
-# Career Tracker — protótipo
+# Career Tracker
 
-Projeto de estudo em Python para acompanhar a evolução de um programa de candidaturas a vagas. A versão atual recebe empresa e status, valida as entradas e exibe a candidatura no terminal.
+Projeto de estudo em Python para acompanhar candidaturas a vagas pelo terminal e registrar minha evolução em programação. O programa recebe o nome da empresa e o status, prepara essas entradas, verifica se são válidas e exibe a candidatura.
 
-> Estado do projeto: `v0.0.2-prototype` — validação de empresa, prática de 28/09/2026. Ainda não há armazenamento de candidaturas.
+**Versão atual:** `v0.0.3-prototype`, registrada em 02/10/2026. O projeto recebe uma candidatura por execução e ainda não salva os dados.
 
-## O que funciona nesta versão
+## Funcionalidades implementadas
 
-- Solicita o nome da empresa e o status da candidatura.
-- Rejeita empresa vazia ou composta apenas por espaços em branco.
-- Valida a empresa antes de verificar o status.
-- Aceita `enviada`, `entrevista` e `recusada`; a entrada do status é convertida para minúsculas.
-- Exibe a candidatura somente quando empresa e status são válidos.
-- Exibe `Empresa invalida.` ou `Status invalido.` conforme a validação que falhou.
-- Mantém validação e exibição organizadas em módulos Python.
+- Entrada do nome da empresa e do status pelo terminal.
+- Remoção de espaços em branco nas extremidades do nome da empresa com `limpar_empresa()`.
+- Normalização do status com `normalizar_status()`: remoção de espaços nas extremidades e conversão para minúsculas.
+- Rejeição de empresa vazia ou composta apenas por espaços em branco.
+- Validação dos status `enviada`, `entrevista` e `recusada`.
+- Validação da empresa antes do status, com `if`/`elif`/`else`.
+- Mensagens `Empresa inválida.` e `Status inválido.` para entradas rejeitadas.
+- Exibição da candidatura somente quando os dois campos são válidos.
+- Separação das funções de validação, limpeza e exibição em módulos Python.
 
 ## Como executar
 
-É necessário ter Python 3 instalado. Na pasta do repositório:
+É necessário ter Python 3 instalado. Não há dependências externas nem configuração de banco de dados.
 
 ```bash
-cd career_tracker
+git clone https://github.com/LuKeT-Dev-Py/career-tracker-python.git
+cd career-tracker-python/career_tracker
 python3 main.py
 ```
 
-No Windows, o comando pode ser `python main.py`. Não há dependências externas nem configuração de banco de dados.
+Se você já baixou o projeto, entre na pasta `career_tracker` e execute `python3 main.py`. No Windows, o comando pode ser `python main.py` ou `py main.py`.
 
-Exemplo de uso:
+## Exemplo de uso
 
 ```text
 Qual empresa você candidatou: Acme
 
 Opções de status: enviada, entrevista, recusada
 
-Qual status da candidatura: enviada
+Qual status da candidatura: ENVIADA
 Empresa: Acme | Status: Enviada
 ```
 
-Com empresa `Acme` e status `pendente`, a saída é `Status invalido.`. Com empresa vazia ou apenas espaços, a saída é `Empresa invalida.`.
+Entradas como `"  Acme  "` e `" EnTrEvIsTa "` resultam em `Empresa: Acme | Status: Entrevista`. Os espaços nas extremidades são removidos antes da validação e da exibição.
 
-## Evolução e versão anterior
-
-| Versão | Marco | Onde consultar |
+| Empresa | Status | Saída final |
 | --- | --- | --- |
-| `v0.0.1-prototype` | Esboço original: entrada de empresa, validação de status e exibição | [Código e README originais](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/302f336d9bad881d148e4f9ebde75057ddf67b95) |
-| `v0.0.2-prototype` | Exercícios 4 e 5: validação de empresa e integração no fluxo principal | Código atual e [registro da prática](docs/2026-09-28-validacao-empresa.md) |
+| `"Acme"` | `"enviada"` | `Empresa: Acme \| Status: Enviada` |
+| `"  Acme  "` | `" enviada "` | `Empresa: Acme \| Status: Enviada` |
+| `""` | `"enviada"` | `Empresa inválida.` |
+| `"   "` | `"pendente"` | `Empresa inválida.` |
+| `"Acme"` | `"pendente"` | `Status inválido.` |
 
-A versão anterior completa está preservada na branch [`historico/v0.0.1-prototype`](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/historico/v0.0.1-prototype), com código, README e imagem originais. Os commits anteriores permanecem no histórico.
+O programa solicita os dois campos antes de validar. Quando ambos estão inválidos, a mensagem da empresa tem prioridade.
 
-- [Histórico de mudanças](CHANGELOG.md)
-- [README original preservado](https://github.com/LuKeT-Dev-Py/career-tracker-python/blob/302f336d9bad881d148e4f9ebde75057ddf67b95/README.md)
-- [Imagem da execução original](https://github.com/LuKeT-Dev-Py/career-tracker-python/blob/302f336d9bad881d148e4f9ebde75057ddf67b95/docs/demonstracao.png) — registro da primeira versão, não da atualização atual.
+## Organização do código
+
+| Arquivo | Responsabilidade |
+| --- | --- |
+| `career_tracker/main.py` | Coletar as entradas, chamar a limpeza e a normalização, validar e escolher a saída. |
+| `career_tracker/validacoes/empresa.py` | `limpar_empresa(nome)` remove espaços nas extremidades; `empresa_preenchida(nome)` retorna se há conteúdo. |
+| `career_tracker/validacoes/status.py` | `normalizar_status(texto)` prepara o texto; `validar_status(status)` verifica se ele pertence à tupla de status permitidos. |
+| `career_tracker/candidaturas/operacoes.py` | `exibir_candidatura(empresa, status)` imprime os dados com `capitalize()`. |
+| `career_tracker/validacoes/__init__.py` e `career_tracker/candidaturas/__init__.py` | Identificar os diretórios como pacotes Python regulares. |
+
+`validar_status()` espera receber o texto já normalizado. A chamada a `normalizar_status()` acontece no programa principal. As funções de limpeza retornam novas strings, e `main.py` atribui esses resultados às variáveis usadas depois.
+
+## Evolução do projeto
+
+| Versão | Registro | Etapa | Código e documentação preservados |
+| --- | --- | --- | --- |
+| `v0.0.1-prototype` | 24/09/2026 | Entrada pelo terminal, validação de status e exibição em módulos. | [Primeira versão completa](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/302f336d9bad881d148e4f9ebde75057ddf67b95) e branch [`historico/v0.0.1-prototype`](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/historico/v0.0.1-prototype). |
+| `v0.0.2-prototype` | 28/09/2026 | Exercícios 4 e 5: validação de empresa e integração no fluxo principal. | [Versão completa](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/53d5d972f688c8e726a503bd8505a98105176579), branch [`historico/v0.0.2-prototype`](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/historico/v0.0.2-prototype) e [registro da prática](docs/2026-09-28-validacao-empresa.md). |
+| `v0.0.3-prototype` | 02/10/2026 | Limpeza do nome da empresa, normalização do status e condições com `if`/`elif`/`else`. | Código atual e [registro técnico desta etapa](docs/2026-10-02-normalizacao-entradas.md). |
+
+O [CHANGELOG](CHANGELOG.md) detalha as mudanças. Cada atualização acrescenta commits ao histórico, sem reescrever os registros anteriores. A estrutura desta etapa separa a inclusão das funções, a integração no terminal e a documentação, usando os tipos `feat`, `refactor` e `docs`.
+
+O [README original](https://github.com/LuKeT-Dev-Py/career-tracker-python/blob/302f336d9bad881d148e4f9ebde75057ddf67b95/README.md), o [README da v0.0.2](https://github.com/LuKeT-Dev-Py/career-tracker-python/blob/53d5d972f688c8e726a503bd8505a98105176579/README.md) e a [imagem da primeira execução](docs/demonstracao.png) continuam disponíveis. A imagem é um registro da primeira versão.
+
+## Verificação desta etapa
+
+Foram executados localmente 8 casos das funções de limpeza e normalização e 17 casos do programa completo. Todos passaram, incluindo entradas com espaços, tabulações, letras maiúsculas, empresa vazia e status inválido. Os resultados estão no [registro da atualização](docs/2026-10-02-normalizacao-entradas.md#verificação-executada).
+
+Essas verificações foram executadas pelo assistente sobre o código enviado pelo autor. Não são uma suíte automatizada incluída no repositório nem novos exercícios respondidos pelo autor.
 
 ## Limitações conhecidas
 
-- A candidatura é apenas exibida: nenhum histórico é salvo ou consultado depois que o programa termina.
-- `strip()` é usado para verificar se a empresa está preenchida; não altera o valor de `empresa` que será exibido.
-- O status é convertido para minúsculas, mas espaços extras não são removidos: ` enviada ` é rejeitado.
-- O programa pede uma candidatura por execução e não permite atualização da situação de uma vaga.
-- A exibição usa `capitalize()`, que altera as demais letras do nome para minúsculas.
-- A validação da empresa verifica apenas se há conteúdo; não verifica a existência real da empresa.
+- Os dados são exibidos e descartados quando o programa termina; não há persistência nem consulta de histórico.
+- Há uma candidatura por execução, sem menu, repetição, edição ou exclusão.
+- `strip()` remove espaços em branco nas extremidades; espaços internos permanecem. `"en viada"` continua sendo um status inválido.
+- `capitalize()` muda as demais letras para minúsculas: `"IBM"` aparece como `"Ibm"`, e `"Acme Labs"` como `"Acme labs"`.
+- A validação da empresa verifica apenas se o texto está preenchido, sem confirmar a existência da empresa.
+- As funções recebem strings, como as retornadas por `input()`; não há tratamento de tipos diferentes ou da interrupção da entrada.
 
 ## Próximos passos planejados
 
-- Ampliar o tratamento de erros e a normalização dos dados inseridos.
+- Ampliar o tratamento de erros e revisar a apresentação dos nomes das empresas.
 - Registrar e consultar várias candidaturas.
 - Atualizar a situação das vagas.
 - Persistir o histórico em PostgreSQL quando a aplicação estiver pronta para isso.
 
-Esses itens são planos; não fazem parte das funcionalidades implementadas.
-
-## Estrutura
-
-```text
-career_tracker/
-├── main.py
-├── candidaturas/
-│   ├── __init__.py
-│   └── operacoes.py
-└── validacoes/
-    ├── __init__.py
-    ├── empresa.py
-    └── status.py
-```
-
-Projeto de estudo em desenvolvimento. Cada atualização registra uma etapa do aprendizado.
+Esses itens são planos e ainda não estão implementados. As atualizações acompanham os conceitos praticados durante o estudo de Python.

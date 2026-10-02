@@ -1,5 +1,37 @@
 # Histórico de evolução
 
+## v0.0.3-prototype: 02/10/2026
+
+Normalização de entradas e organização das condições, conforme o código enviado pelo autor em `career_tracker(3).zip`.
+
+### Adicionado
+
+- `limpar_empresa(nome)` em `validacoes/empresa.py`, com `nome.strip()`.
+- `normalizar_status(texto)` em `validacoes/status.py`, com `texto.strip().lower()`.
+- [Registro técnico da etapa](docs/2026-10-02-normalizacao-entradas.md), com explicações, comparação entre versões, estrutura dos commits e resultados das verificações.
+
+### Alterado
+
+- `main.py` atribui os valores limpos e normalizados antes de validar e exibir.
+- Status com espaços em branco nas extremidades passam a ser aceitos quando correspondem a `enviada`, `entrevista` ou `recusada` após a normalização.
+- A limpeza da empresa passa a afetar também o valor exibido.
+- Condições aninhadas substituídas por `if not`/`elif not`/`else`, mantendo a prioridade da validação da empresa.
+- Mensagens com acentos: `Empresa inválida.` e `Status inválido.`.
+- README atualizado para a versão atual, com funcionalidades, execução, estrutura, evolução e limitações.
+
+### Preservado
+
+- `v0.0.2-prototype` completa na branch `historico/v0.0.2-prototype` e no [commit anterior](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/53d5d972f688c8e726a503bd8505a98105176579).
+- `v0.0.1-prototype`, documentação dos exercícios 4 e 5, imagem original e todos os commits anteriores.
+- Regra dos três status permitidos, rejeição de empresa vazia e lógica de exibição com `capitalize()`.
+- As seções anteriores deste CHANGELOG, mantidas como registro daquelas versões.
+
+### Verificação e limites
+
+O assistente executou 8 casos das funções novas e 17 do programa completo. Os 25 casos passaram; os 17 cenários de execução também foram comparados com a versão anterior. A sintaxe dos arquivos Python foi verificada. A matriz está no registro técnico; essas verificações não representam exercícios adicionais do autor nem uma suíte de testes incluída no repositório.
+
+Os caches `__pycache__` e `.pyc` do ZIP não foram publicados. O programa ainda recebe uma candidatura por execução, sem persistência, menu ou edição. A exibição continua alterando a capitalização de nomes como `IBM` para `Ibm`.
+
 ## v0.0.2-prototype — 28/09/2026
 
 Prática de validação de entradas, exercícios 4 e 5.
