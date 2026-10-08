@@ -1,5 +1,40 @@
 # Histórico de evolução
 
+## v0.0.4-wip: 07/10/2026
+
+**Versão parcial. Está prevista para 08/10/2026 a publicação da versão completa das funcionalidades que ficaram em aberto nesta etapa, conforme o planejamento informado pelo autor.**
+
+### Implementado no cadastro e na listagem
+
+- Campo cargo, com remoção de espaços nas extremidades e repetição da pergunta quando vazio.
+- Cadastro de duas candidaturas por execução, definido no código.
+- Lista de dicionários com empresa, cargo e status, mantida somente na memória do programa.
+- Novas tentativas para entradas inválidas de empresa e status.
+- Exibição do cargo junto de empresa e status e listagem numerada na entrada do fluxo de edição.
+- Tratamento de `ValueError` na conversão do número da candidatura para inteiro.
+
+### Em desenvolvimento
+
+- Edição de empresa com problemas no índice e na posição do bloco de atualização.
+- Edição de cargo e status com marcadores `# Proximo` e `...`.
+- Validação da faixa do número da candidatura e comparação do campo status.
+- Rejeição de campos inválidos antes de qualquer atualização, revisão do contador e definição da saída do fluxo.
+
+### Documentação e análise
+
+- README explica o estado parcial, as funcionalidades disponíveis, os erros conhecidos e a publicação completa prevista para 08/10/2026.
+- [Registro técnico da etapa](docs/2026-10-07-cadastro-memoria-edicao-parcial.md) inclui comparação com a v0.0.3, explicações dos conceitos, 12 cenários verificados e critérios para a continuação.
+- As verificações confirmaram o cadastro e reproduziram os problemas da edição, incluindo alteração do registro errado e `IndexError`. A comparação com `is` gera `SyntaxWarning`. A edição não é apresentada como concluída.
+
+### Preservado
+
+- Código enviado pelo autor em `career_tracker(4)(1).zip`, sem correção da lógica nesta publicação.
+- Versão anterior completa na branch `historico/v0.0.3-prototype` e no [commit anterior](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/acbe8e93f87165fcee5a6ea1877c718cb45b8bac).
+- Versões v0.0.1 e v0.0.2, READMEs anteriores, imagem original, registros de estudo e histórico de commits.
+- Seções anteriores deste CHANGELOG, mantidas como registro das versões anteriores.
+
+Não há persistência entre execuções. A previsão de conclusão refere-se às pendências desta etapa, não aos planos de banco de dados e outros recursos futuros.
+
 ## v0.0.3-prototype: 02/10/2026
 
 Normalização de entradas e organização das condições, conforme o código enviado pelo autor em `career_tracker(3).zip`.
