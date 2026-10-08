@@ -12,7 +12,13 @@ def verificar_alteracao(alteracao):
         return 1
     elif alteracao == 'cargo':
         return 2
-    elif alteracao is 'status':
+    elif alteracao == 'status':
         return 3
+    else:
+        return False
+
+def selecao_valida(numero, quantidade):
+    if numero <= quantidade and numero > 0:
+        return True
     else:
         return False

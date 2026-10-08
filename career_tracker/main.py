@@ -1,10 +1,12 @@
 import sys
 from validacoes.status import validar_status, normalizar_status
 from validacoes.empresa import empresa_preenchida, limpar_empresa
-from candidaturas.operacoes import exibir_candidatura, tratar_lista, verificar_alteracao
+from candidaturas.operacoes import exibir_candidatura, tratar_lista, verificar_alteracao, selecao_valida
 status_validos = ('Opções de status: enviada, entrevista, recusada \n')
 empresas_a_cadastrar = 1
 empresas_cadastradas = []
+if not tratar_lista(empresas_cadastradas):
+    print('Nenhuma empresa foi cadastrada.')  
 
 while empresas_a_cadastrar <= 2:
     while True:
@@ -60,39 +62,61 @@ while True:
         alteracao = input('Qual candidatura deseja alterar: ')
         try:
             alteracao = int(alteracao)
+            if selecao_valida(alteracao, len(empresas_cadastradas)):
+                indice = alteracao - 1
+            else:
+                print('Digite um valor valido para quantidade de vagas cadastradas.')
+                continue
             break
         except ValueError:
             print('Digite um valor inteiro valido.')
             continue
-
-    print('Valores validos, Empresa, Cargo, Status')
+    valores_validos = ['Empresa', 'Cargo', 'Status']
+    print(f'Valores validos, {valores_validos}')
     oq_alterar = input('Qual valor deseja alterar?: ').strip().lower()
     valor = verificar_alteracao(oq_alterar)
 
     if valor == 1:
-        alteracao -= 1
-        print(empresas_cadastradas[alteracao]['empresa'].capitalize())
-        alteracao += 1
-    while True:
-        nova_empresa = input('Qual empresa deseja por no lugar: ')
-        nova_empresa = limpar_empresa(nova_empresa)
-        if not empresa_preenchida(nova_empresa):
-            print("Empresa inválida. Tente novamente.")
-            continue
-        else:
-            empresas_cadastradas[alteracao]['empresa'] = nova_empresa
-            break
+        print(empresas_cadastradas[indice]['empresa'].capitalize())
+        while True:
+            nova_empresa = input('Qual empresa deseja por no lugar: ')
+            nova_empresa = limpar_empresa(nova_empresa)
+            if not empresa_preenchida(nova_empresa):
+                print("Empresa inválida. Tente novamente.")
+                continue
+            else:
+                empresas_cadastradas[indice]['empresa'] = nova_empresa
+                break
 
     if valor == 2:
-        # Proximo
-        ...
+        print(empresas_cadastradas[indice]['cargo'].capitalize())
+        while True:
+            while True:
+                novo_cargo = input('Digite o novo cargo para essa empresa: ').strip()
+                if novo_cargo == '':
+                    print('Cargo inválido. Tente novamente.')
+                    continue
+                else:
+                    break
+            empresas_cadastradas[indice]['cargo'] = novo_cargo
+            break            
+
     if valor == 3:
-        # Proximo
-        ...
+        while True:
+            print(status_validos)
+            novo_status = input('Qual status da candidatura: ')
+            novo_status = normalizar_status(novo_status)
+            
+            if not validar_status(novo_status):
+                print("Status inválido. Tente novamente.")
+                continue
+            else:
+                empresas_cadastradas[indice]['status'] = novo_status
+                break
+
     if not valor:
-        # Proximo
         print('Valor invalido.')
-        break
+        continue
 
 print('')
 print(f'Status inválidos informados: {contador}')
