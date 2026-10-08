@@ -3,7 +3,10 @@ def validar_status(status):
     if status in permitidos:
         return True
     else:
-        return False
+        try:
+            return False
+        except ValueError:
+            return print('Digite um valor inteiro valido.')
     
 def normalizar_status(texto):
     return texto.strip().lower()
