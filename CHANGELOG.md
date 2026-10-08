@@ -1,5 +1,42 @@
 # Histórico de evolução
 
+## v0.0.5-prototype: 08/10/2026
+
+Cadastro, listagem e edição em memória, conforme o código enviado pelo autor em `career_tracker(6).zip`.
+
+### Concluído e corrigido
+
+- Edição de empresa, cargo e status da candidatura selecionada.
+- Função `selecao_valida(numero, quantidade)` para verificar a faixa antes de acessar a lista.
+- Conversão da escolha para o índice com `indice = alteracao - 1`, preservando o outro registro.
+- Bloco de empresa executado somente quando esse campo é escolhido.
+- Comparação de conteúdo com `==` para reconhecer o campo status.
+- Normalização e validação do novo status antes de atualizar o dicionário.
+- Rejeição de campo desconhecido sem alteração de dados.
+- Novas tentativas para valores vazios e status inválido na edição.
+- Listagem atualizada e continuidade do fluxo após editar qualquer um dos três campos.
+- Mensagem de lista vazia na abertura, antes do primeiro cadastro.
+- Orientação do campo de edição coerente com as palavras aceitas: empresa, cargo e status.
+
+### Documentação e verificação
+
+- README completo com execução, exemplo da segunda candidatura, estrutura dos módulos, conceitos, limitações e histórico.
+- [Registro técnico de 08/10](docs/2026-10-08-edicao-validada.md) com comparação entre versões, relato do autor sobre a correção do índice, 10 cenários e resultados.
+- Os 10 cenários executados pelo assistente passaram, incluindo preservação de dados em tentativas inválidas e alterações consecutivas.
+- Os seis arquivos Python foram compilados sem avisos de sintaxe.
+- A revisão considerou atendida a etapa de cadastro, listagem e edição em memória da trilha, com a explicação do bug apresentada pelo autor.
+
+### Preservado e limites
+
+- Os seis arquivos Python do ZIP final foram mantidos integralmente; eles são iguais aos da versão imediatamente anterior revisada.
+- A versão parcial `v0.0.4-wip` foi preservada na branch `historico/v0.0.4-wip` e no [commit original](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/6c4e772cbdb3d15ba458eae8672a06865f669ded).
+- As branches históricas anteriores, documentos, imagem e commits permanecem disponíveis.
+- As seções anteriores deste CHANGELOG foram mantidas sem alteração como registros de suas respectivas datas.
+- Não há persistência, exclusão, menu geral ou comando próprio de saída. O cadastro permanece limitado a dois registros.
+- Contador, capitalização e trechos redundantes seguem como ajustes futuros.
+
+A continuação prevista para 08/10 foi publicada com os fluxos de edição concluídos nos cenários verificados. Essa conclusão se refere à etapa em memória; a aplicação continua em evolução.
+
 ## v0.0.4-wip: 07/10/2026
 
 **Versão parcial. Está prevista para 08/10/2026 a publicação da versão completa das funcionalidades que ficaram em aberto nesta etapa, conforme o planejamento informado pelo autor.**
