@@ -1,25 +1,30 @@
-import sys
 from validacoes.status import validar_status, normalizar_status
 from validacoes.empresa import empresa_preenchida, limpar_empresa
-from candidaturas.operacoes import exibir_candidatura, tratar_lista, verificar_alteracao, selecao_valida
+from candidaturas.operacoes import exibir_candidatura, tratar_lista, verificar_alteracao, selecao_valida, salvar_candidaturas
+
 status_validos = ('Opções de status: enviada, entrevista, recusada \n')
 empresas_a_cadastrar = 1
 empresas_cadastradas = []
+
 if not tratar_lista(empresas_cadastradas):
     print('Nenhuma empresa foi cadastrada.')  
 
 while empresas_a_cadastrar <= 2:
+
     while True:
         empresa = input('Qual empresa você candidatou: ')
         empresa = limpar_empresa(empresa)
+
         if not empresa_preenchida(empresa):
             print("Empresa inválida. Tente novamente.")
             continue
         else:
             break
+
     cargo = False
     while not cargo:
         q_cargo = input('Qual cargo irá trabalhar: ').strip()
+
         if q_cargo == '':
             print('Cargo inválido. Tente novamente.')
         else:
@@ -38,6 +43,7 @@ while empresas_a_cadastrar <= 2:
             continue
         else:
             break
+
     candidatura = {"empresa": '', "cargo": '', "status": ''}
     candidatura['empresa'] = empresa
     candidatura['cargo'] = cargo
@@ -51,6 +57,9 @@ if tratar_lista(empresas_cadastradas):
 else:
     print('Nenhuma empresa foi cadastrada.')
 
+salvar_candidaturas(empresas_cadastradas, caminho="candidaturas_treino.json")
+
+
 while True:
     n = 1
     for emprise in empresas_cadastradas:
@@ -60,6 +69,7 @@ while True:
         
     while True:
         alteracao = input('Qual candidatura deseja alterar: ')
+
         try:
             alteracao = int(alteracao)
             if selecao_valida(alteracao, len(empresas_cadastradas)):
@@ -71,6 +81,7 @@ while True:
         except ValueError:
             print('Digite um valor inteiro valido.')
             continue
+
     valores_validos = ['Empresa', 'Cargo', 'Status']
     print(f'Valores validos, {valores_validos}')
     oq_alterar = input('Qual valor deseja alterar?: ').strip().lower()
@@ -86,6 +97,7 @@ while True:
                 continue
             else:
                 empresas_cadastradas[indice]['empresa'] = nova_empresa
+                salvar_candidaturas(empresas_cadastradas, caminho="candidaturas_treino.json")
                 break
 
     if valor == 2:
@@ -99,6 +111,7 @@ while True:
                 else:
                     break
             empresas_cadastradas[indice]['cargo'] = novo_cargo
+            salvar_candidaturas(empresas_cadastradas, caminho="candidaturas_treino.json")
             break            
 
     if valor == 3:
@@ -112,11 +125,10 @@ while True:
                 continue
             else:
                 empresas_cadastradas[indice]['status'] = novo_status
+                salvar_candidaturas(empresas_cadastradas, caminho="candidaturas_treino.json")
                 break
 
     if not valor:
         print('Valor invalido.')
         continue
 
-print('')
-print(f'Status inválidos informados: {contador}')
