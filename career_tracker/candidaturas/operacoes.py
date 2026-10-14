@@ -31,3 +31,12 @@ def selecao_valida(numero, quantidade):
 def salvar_candidaturas(lista, caminho):
     with open(caminho, "w", encoding="utf-8") as arquivo:
         json.dump(lista, arquivo, ensure_ascii=False, indent=2)
+
+def contar_entrevistas(lista):
+    contador = 0
+    for dic in lista:
+        if dic['status'] == 'entrevista':
+            contador += 1
+        else:
+            continue
+    return contador

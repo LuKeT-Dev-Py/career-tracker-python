@@ -1,6 +1,4 @@
-from validacoes.status import validar_status, normalizar_status
-from validacoes.empresa import empresa_preenchida, limpar_empresa
-from candidaturas.operacoes import exibir_candidatura, tratar_lista, verificar_alteracao, selecao_valida, salvar_candidaturas
+from modulos import *
 
 status_validos = ('Opções de status: enviada, entrevista, recusada \n')
 empresas_a_cadastrar = 1
@@ -51,6 +49,11 @@ while empresas_a_cadastrar <= 2:
     empresas_cadastradas.append(candidatura)
     empresas_a_cadastrar += 1
 
+em_entrevista = contar_entrevistas(empresas_cadastradas)
+print('')
+print(f'Total de candidaturas: {len(empresas_cadastradas)}')
+print(f'Candidaturas em entrevista: {em_entrevista}\n')
+
 if tratar_lista(empresas_cadastradas):
     for emprise in empresas_cadastradas:
         exibir_candidatura(emprise['empresa'],emprise['status'],emprise['cargo'])
@@ -58,7 +61,6 @@ else:
     print('Nenhuma empresa foi cadastrada.')
 
 salvar_candidaturas(empresas_cadastradas, caminho="candidaturas_treino.json")
-
 
 while True:
     n = 1
@@ -131,4 +133,3 @@ while True:
     if not valor:
         print('Valor invalido.')
         continue
-
