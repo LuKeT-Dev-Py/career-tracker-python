@@ -40,3 +40,8 @@ def contar_entrevistas(lista):
         else:
             continue
     return contador
+
+def carregar_candidaturas(caminho):
+    with open(caminho, "r", encoding="utf-8") as arquivo:
+        recuperado = json.load(arquivo)
+    return recuperado
