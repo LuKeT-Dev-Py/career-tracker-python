@@ -1,5 +1,44 @@
 # Histórico de evolução
 
+## v0.0.6-prototype: 21/10/2026
+
+Gravação JSON no programa principal, leitura em conferência independente e contagem de entrevistas. A recuperação automática na inicialização ainda está pendente.
+
+### Implementado no código do autor
+
+- `salvar_candidaturas(lista, caminho)` com `json.dump()`, UTF-8, `ensure_ascii=False` e indentação.
+- Gravação de `candidaturas_treino.json` após o cadastro das duas candidaturas e após edições válidas de empresa, cargo ou status.
+- `carregar_candidaturas(caminho)` com `json.load()`, utilizada em `conferir_carregamento.py`.
+- Contagem de candidaturas com `len()` e de entrevistas com `contar_entrevistas()`.
+- Tratamento de `FileNotFoundError` e `json.JSONDecodeError` no script de conferência.
+- `CAMINHO_CONFERENCIA` baseado na pasta de `configuracoes.py`, independente da pasta atual do terminal.
+- `modulos.py` para reunir as importações do principal.
+- Remoção do `import sys` sem uso e da impressão final inalcançável do contador no principal.
+
+### Documentação desta publicação
+
+- README atualizado para descrever gravação, leitura separada, instruções de uso, caminhos, exemplos, verificações e pendências atuais.
+- [Registro técnico de 21/10](docs/2026-10-21-json-parcial.md) com comparação desde a v0.0.5, os seis commits de código do autor e critérios para concluir a recuperação no principal.
+- Análise de 22 cenários: 17 confirmaram funcionalidades e 5 reproduziram limitações; nove arquivos Python compilados sem avisos de sintaxe.
+- Os testes de análise foram executados pelo assistente em diretórios temporários, sem modificar a lógica ou os dados do autor.
+
+### Limites reproduzidos
+
+- O principal começa com uma lista vazia, sem carregar o JSON anterior, e o sobrescreve ao concluir dois novos cadastros.
+- Gravação e conferência usam arquivos diferentes: `candidaturas_treino.json` na pasta atual do terminal e `candidaturas_laboratorio.json` na pasta do projeto.
+- JSON interpretável sem a chave `status` gera `KeyError` não tratado.
+- O resumo de entrevistas é calculado apenas após o cadastro inicial.
+- Falha de gravação no principal não é tratada; destino que seja um diretório provoca `IsADirectoryError`.
+
+### Preservado e próxima etapa
+
+- Nove arquivos Python e seis commits do autor entre 13 e 21/10, sem reescrever ou substituir seu código.
+- A `v0.0.5-prototype` completa na branch `historico/v0.0.5-prototype`, a partir do [commit de publicação](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/51c74c363daef7df67187d392ac487ac9f75d5d5).
+- Branches, documentos, imagem e seções anteriores deste CHANGELOG.
+- Próxima etapa: unificar caminho, carregar na inicialização, preservar registros entre execuções e tratar erros no fluxo principal.
+
+Este marco registra uma integração parcial do JSON. A divulgação de persistência concluída deve aguardar a conferência do ciclo de salvar, encerrar, reabrir e recuperar os mesmos dados.
+
 ## v0.0.5-prototype: 08/10/2026
 
 Cadastro, listagem e edição em memória, conforme o código enviado pelo autor em `career_tracker(6).zip`.
