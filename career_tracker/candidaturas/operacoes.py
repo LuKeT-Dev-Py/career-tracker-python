@@ -45,3 +45,8 @@ def carregar_candidaturas(caminho):
     with open(caminho, "r", encoding="utf-8") as arquivo:
         recuperado = json.load(arquivo)
     return recuperado
+
+def resumir_candidaturas(lista):
+    quantia = len(lista)
+    entrevistas = contar_entrevistas(lista)
+    return {"total": quantia, "entrevista": entrevistas}
