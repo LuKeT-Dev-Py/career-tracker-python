@@ -49,4 +49,4 @@ def carregar_candidaturas(caminho):
 def resumir_candidaturas(lista):
     quantia = len(lista)
     entrevistas = contar_entrevistas(lista)
-    return {"total": quantia, "entrevista": entrevistas}
+    return {"total": quantia, "entrevistas": entrevistas}
