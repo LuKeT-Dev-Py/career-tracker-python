@@ -20,8 +20,8 @@ def executar_conferencia():
         print('')
         if resumo['total'] == 0:
             print('Nenhuma candidatura cadastrada.')
-        else:
-            print(f'Total de candidaturas: {resumo['total']}')
+            
+        print(f'Total de candidaturas: {resumo['total']}')
         print(f'Candidaturas em entrevista: {resumo['entrevistas']}\n')
         for n in candidaturas_recuperadas:
             exibir_candidatura(n['empresa'], n['status'], n['cargo'])
