@@ -2,16 +2,16 @@ from candidaturas.operacoes import carregar_candidaturas, exibir_candidatura, co
 import json
 from configuracoes import CAMINHO_CONFERENCIA
 
-def executar_conferencia():
+def executar_conferencia(caminho=CAMINHO_CONFERENCIA):
     try:
-        candidaturas_recuperadas = carregar_candidaturas(CAMINHO_CONFERENCIA)
+        candidaturas_recuperadas = carregar_candidaturas(caminho)
 
     except FileNotFoundError:
-        print(f'Arquivo não encontrado: {CAMINHO_CONFERENCIA}')
+        print(f'Arquivo não encontrado: {caminho}')
         print('Confira se o arquivo existe no caminho informado acima.')
 
     except json.JSONDecodeError:
-        print(f'Arquivo: {CAMINHO_CONFERENCIA}')
+        print(f'Arquivo: {caminho}')
         print('O arquivo está vazio ou contém JSON inválido.')
         print('Confira o conteúdo antes de tentar novamente.')
 
