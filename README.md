@@ -1,45 +1,28 @@
 # Career Tracker
 
-Projeto de estudo em Python para acompanhar candidaturas pelo terminal e registrar minha evolução em programação.
+Aplicação de terminal em Python para organizar candidaturas a vagas. Permite cadastrar empresa, cargo e status, consultar os registros e editar a candidatura escolhida.
 
-**Versão atual: `v0.0.6-prototype`, registrada em 21/10/2026.** O programa cadastra duas candidaturas, permite editar seus campos e grava os dados em JSON após o cadastro e as alterações. Um script separado lê um arquivo de laboratório e mostra os registros e as contagens.
+É meu projeto principal de estudo. Nele pratico validação de entradas, organização em módulos, manipulação de listas e dicionários, arquivos JSON e testes com `unittest`.
 
-**A recuperação automática ao abrir o programa ainda está pendente.** O `main.py` começa com uma lista vazia e sobrescreve `candidaturas_treino.json` depois de dois novos cadastros. O arquivo fica no disco, mas seus registros ainda não são reaproveitados pelo fluxo principal na próxima execução.
+**Estado atual:** protótipo com cadastro de duas candidaturas por execução, edição contínua e gravação em JSON.
 
-## O que funciona
+> O programa principal ainda inicia com uma lista vazia. Ao concluir dois novos cadastros, substitui o JSON da execução anterior. A leitura já existe em um script separado; recuperar os registros automaticamente ao abrir o programa é a próxima integração.
 
-- Cadastro de duas candidaturas por execução, com empresa, cargo e status.
-- Mensagem inicial de lista vazia e listagem numerada dos registros.
-- Edição de empresa, cargo e status somente na candidatura escolhida.
-- Validação de empresa e cargo vazios, status inválido, escolha não numérica e número fora da faixa.
-- Limpeza dos espaços nas extremidades; normalização de status com `strip().lower()`.
-- Status aceitos: `enviada`, `entrevista` e `recusada`.
-- Continuidade da edição e nova listagem depois de uma alteração válida.
-- Gravação em `candidaturas_treino.json` ao concluir os dois cadastros e após editar qualquer um dos três campos.
-- Serialização e leitura JSON com UTF-8, preservando acentos.
-- Resumo do total de candidaturas e das que estão em entrevista, exibido após o cadastro inicial.
-- Conferência de um JSON em script independente, incluindo tratamento de arquivo ausente e JSON vazio ou malformado.
-- Caminho de conferência baseado na pasta do script, funcionando mesmo quando a pasta atual do terminal muda.
+## Funcionalidades
 
-O projeto usa somente a biblioteca padrão do Python. Ainda não há banco de dados, exclusão, menu geral, quantidade variável de cadastros ou comando próprio de saída.
-
-## Estado da integração JSON
-
-| Parte | Situação atual |
-| --- | --- |
-| Salvar pelo `main.py` | Implementado depois do cadastro e de edições válidas. |
-| Função `carregar_candidaturas()` | Implementada e utilizada no script de conferência. |
-| Carregar ao abrir `main.py` | Pendente; a lista começa vazia em toda execução. |
-| Arquivo salvo pelo programa | `candidaturas_treino.json`, relativo à pasta atual do terminal. |
-| Arquivo lido pela conferência | `candidaturas_laboratorio.json`, ao lado de `configuracoes.py`. |
-| Caminho compartilhado entre gravação e leitura | Pendente; os dois fluxos ainda usam nomes e regras de localização diferentes. |
-| Validação da estrutura carregada | Pendente; JSON interpretável não garante uma lista de candidaturas com os campos esperados. |
-
-Os dois arquivos pertencem a fluxos separados de estudo. A conferência não recupera automaticamente o arquivo gravado pelo `main.py`.
+- Cadastrar duas candidaturas com empresa, cargo e um dos status `enviada`, `entrevista` ou `recusada`.
+- Listar registros e editar empresa, cargo ou status de uma candidatura selecionada.
+- Rejeitar campos vazios, status inválidos e seleções inexistentes ou não numéricas.
+- Remover espaços das extremidades e normalizar o status para minúsculas.
+- Mostrar o total de candidaturas e de entrevistas após o cadastro inicial.
+- Salvar o cadastro e as edições em JSON com UTF-8.
+- Conferir um JSON em script separado, com mensagens para arquivo ausente, conteúdo inválido ou lista vazia.
 
 ## Como executar
 
-É necessário ter Python 3 instalado. A revisão desta versão foi executada com Python 3.12.14.
+Requer **Python 3.12 ou superior** e Git para clonar. Usa somente a biblioteca padrão, sem dependências externas. A sintaxe de f-strings utilizada na conferência exige [Python 3.12](https://docs.python.org/3.12/whatsnew/3.12.html#pep-701-syntactic-formalization-of-f-strings).
+
+No Linux ou macOS:
 
 ```bash
 git clone https://github.com/LuKeT-Dev-Py/career-tracker-python.git
@@ -47,50 +30,24 @@ cd career-tracker-python/career_tracker
 python3 main.py
 ```
 
-No Windows, conforme a instalação, use `python main.py` ou `py main.py` dentro da pasta `career_tracker`.
+No Windows, dentro da mesma pasta, use `py main.py` ou `python main.py`, conforme a instalação. Confira se o interpretador é 3.12 ou superior.
 
-### Usar o programa principal
+1. Cadastre duas candidaturas.
+2. Digite `1` ou `2` para escolher qual deseja editar.
+3. Informe o campo por extenso: `empresa`, `cargo` ou `status`.
+4. Digite o novo valor e confira a listagem.
+5. Para encerrar, use `Ctrl+C`; o protótipo ainda pode mostrar `KeyboardInterrupt`.
 
-1. Preencha empresa, cargo e status de duas candidaturas.
-2. Confira a listagem e o resumo inicial. O programa grava `candidaturas_treino.json` na pasta atual do terminal.
-3. Digite `1` ou `2` para selecionar a candidatura que deseja alterar.
-4. Digite o campo por extenso: `empresa`, `cargo` ou `status`.
-5. Informe um novo valor válido. O programa atualiza somente o registro escolhido, grava o JSON e mostra a nova listagem.
-6. Para interromper o laço de edição, use `Ctrl+C`. A interrupção pode mostrar `KeyboardInterrupt`.
+### Exemplo de uso
 
-Ao executar os comandos acima, a pasta atual será `career_tracker`, e o arquivo será criado nela. Executar o mesmo script a partir de outra pasta muda o local da gravação. A configuração de caminho absoluto ainda se aplica somente à conferência.
+Cadastre os dados fictícios abaixo:
 
-**Nesta versão, iniciar outra execução e concluir dois novos cadastros substitui o conteúdo anterior do arquivo de treino.** A próxima etapa é carregar e preservar os registros existentes antes de cadastrar ou editar.
-
-### Conferir um arquivo JSON separadamente
-
-```bash
-python3 conferir_carregamento.py
-```
-
-O script procura `candidaturas_laboratorio.json` na pasta do projeto. Esse arquivo não está incluído no repositório; sua ausência gera uma mensagem com o caminho esperado.
-
-Para conferir uma cópia dos dados de treino no Linux, primeiro interrompa o `main.py` com `Ctrl+C`. Dentro da pasta `career_tracker`, use:
-
-```bash
-cp -i candidaturas_treino.json candidaturas_laboratorio.json
-python3 conferir_carregamento.py
-```
-
-O `-i` pede confirmação se o arquivo de laboratório já existir. No Windows, você pode fazer essa cópia pelo explorador de arquivos, com o mesmo nome de destino. Essa preparação manual serve à demonstração e ainda não conecta a leitura ao fluxo principal.
-
-Com um arquivo válido, a conferência exibe o total de candidaturas, a quantidade em entrevista e os dados de cada registro. Arquivo de zero bytes e JSON malformado geram a mensagem de JSON inválido. O conteúdo `[]` é JSON válido e mostra totais iguais a zero.
-
-## Exemplo
-
-Cadastre:
-
-| Candidatura | Empresa | Cargo | Status |
+| Número | Empresa | Cargo | Status |
 | --- | --- | --- | --- |
 | 1 | Acme | Dev Python | enviada |
 | 2 | Beta | Estágio | entrevista |
 
-O resumo inicial informa duas candidaturas e uma em entrevista. Para alterar o status da segunda:
+O resumo inicial informa duas candidaturas e uma em entrevista. Para mudar o status da segunda:
 
 ```text
 Qual candidatura deseja alterar: 2
@@ -98,7 +55,7 @@ Qual valor deseja alterar?: status
 Qual status da candidatura: enviada
 ```
 
-A próxima listagem apresenta:
+Na nova listagem:
 
 ```text
 Candidatura: 1
@@ -107,63 +64,63 @@ Candidatura: 2
 Empresa: Beta | Cargo: Estágio | Status: Enviada
 ```
 
-O arquivo de treino passa a conter os dois registros com esses valores. A primeira candidatura permanece intacta. O resumo de entrevistas é calculado apenas após o cadastro inicial; ele ainda não é recalculado após as edições.
+A primeira candidatura permanece intacta, e o arquivo de treino recebe a alteração. O resumo de entrevistas ainda é calculado somente após o cadastro inicial.
 
-## Organização do código
+## Arquivos JSON
+
+| Fluxo | Arquivo | Localização |
+| --- | --- | --- |
+| Gravação pelo programa principal | `candidaturas_treino.json` | Pasta atual do terminal. |
+| Leitura pelo script de conferência | `candidaturas_laboratorio.json` | Pasta `career_tracker`, definida em `configuracoes.py`. |
+
+Os arquivos são gerados durante o uso e não acompanham o repositório. Para demonstrar a leitura com os dados cadastrados, encerre o principal e, dentro de `career_tracker`, execute no Linux ou macOS:
+
+```bash
+cp -i candidaturas_treino.json candidaturas_laboratorio.json
+python3 conferir_carregamento.py
+```
+
+No Windows, copie o arquivo pelo explorador, renomeie a cópia para `candidaturas_laboratorio.json` e execute `py conferir_carregamento.py`.
+
+A cópia é uma preparação manual para a demonstração. A conferência mostra totais e registros, trata arquivo ausente e JSON malformado e aceita `[]` como lista vazia válida.
+
+## Teste automatizado
+
+Dentro de `career_tracker`:
+
+```bash
+python3 -m unittest -v teste
+```
+
+No Windows: `py -m unittest -v teste`.
+
+Há **um teste incluído**, em [teste.py](career_tracker/teste.py), que verifica se `resumir_candidaturas([])` retorna `{"total": 0, "entrevistas": 0}`. Ele não cobre o cadastro interativo, as edições ou a persistência.
+
+## Onde ler o código
 
 | Arquivo | Responsabilidade |
 | --- | --- |
-| `career_tracker/main.py` | Cadastro, validação, listagem, resumo inicial, edição e chamadas de gravação JSON. |
-| `career_tracker/modulos.py` | Reunir as importações utilizadas pelo arquivo principal. |
-| `career_tracker/candidaturas/operacoes.py` | Exibição, seleção, identificação do campo, gravação, leitura e contagem de entrevistas. |
-| `career_tracker/conferir_carregamento.py` | Ler o arquivo de laboratório, tratar ausência e JSON inválido e exibir os dados recuperados. |
-| `career_tracker/configuracoes.py` | Definir `CAMINHO_CONFERENCIA` a partir da pasta do próprio arquivo com `os.path`. |
-| `career_tracker/validacoes/empresa.py` | Limpar espaços e conferir o preenchimento da empresa. |
-| `career_tracker/validacoes/status.py` | Normalizar o status e conferir os três valores aceitos. |
-| Arquivos `__init__.py` | Identificar os pacotes Python regulares. |
+| [main.py](career_tracker/main.py) | Cadastro, resumo inicial, seleção, edição e chamadas de gravação. |
+| [operacoes.py](career_tracker/candidaturas/operacoes.py) | Operações sobre candidaturas, leitura/gravação JSON e contagens. |
+| [empresa.py](career_tracker/validacoes/empresa.py) e [status.py](career_tracker/validacoes/status.py) | Limpeza e validação das entradas. |
+| [conferir_carregamento.py](career_tracker/conferir_carregamento.py) | Leitura e apresentação do arquivo de laboratório. |
+| [configuracoes.py](career_tracker/configuracoes.py) | Caminho do arquivo usado na conferência. |
+| [modulos.py](career_tracker/modulos.py) | Importações utilizadas pelo principal. |
 
-Cada candidatura é um dicionário com as chaves `empresa`, `cargo` e `status`. A lista `empresas_cadastradas` reúne esses dicionários. A seleção apresentada começa em 1 e é convertida para o índice da lista com `indice = alteracao - 1`.
+Cada candidatura é um dicionário com `empresa`, `cargo` e `status`. A seleção exibida começa em 1; `indice = alteracao - 1` converte a escolha para o índice da lista.
 
-`salvar_candidaturas(lista, caminho)` usa `open()` em modo `w` e `json.dump()` com `ensure_ascii=False` e `indent=2`. O modo de escrita substitui o conteúdo do arquivo. `carregar_candidaturas(caminho)` usa o modo `r` e `json.load()`, retornando o conteúdo interpretado.
+## Limitações e próximos passos
 
-O principal usa `from modulos import *`. Essa centralização foi registrada como parte da evolução; importações explícitas podem facilitar a leitura da origem de cada função em uma revisão futura.
+A prioridade é completar o ciclo de salvar, encerrar, reabrir e recuperar os mesmos registros. Isso exige unificar arquivo e caminho, carregar os dados no início e tratar falhas de leitura/gravação no fluxo principal.
 
-## Verificação e problemas conhecidos
+Também faltam validação da estrutura do JSON carregado, atualização do resumo após edições, saída por menu, quantidade variável de cadastros e exclusão. Um JSON interpretável com campos ausentes ainda pode causar erro na conferência.
 
-O assistente analisou o código do commit [`233d3ae`](https://github.com/LuKeT-Dev-Py/career-tracker-python/commit/233d3aecc7e9aa0ecb1eeef864139c5253f3cf77). Foram executados **22 cenários: 17 confirmaram funcionalidades e 5 reproduziram limitações**. Os nove arquivos Python foram compilados sem avisos de sintaxe.
+## Evolução do projeto
 
-As limitações reproduzidas foram:
+O marco `v0.0.6-prototype` registra a integração parcial de JSON em 21/10/2026. O teste de lista vazia está incluído no código atual.
 
-1. JSON válido com uma candidatura sem a chave `status` gera `KeyError` não tratado na conferência.
-2. O principal não recupera o JSON existente e o sobrescreve depois de dois novos cadastros.
-3. Principal e conferência usam arquivos diferentes, e somente a conferência tem caminho baseado na pasta do script.
-4. O resumo de entrevistas não é recalculado depois de editar o status.
-5. Falhas na gravação não são tratadas pelo principal; um diretório com o nome do arquivo causa `IsADirectoryError`.
+- [CHANGELOG](CHANGELOG.md): versões e histórico.
+- [Registro técnico de JSON](docs/2026-10-21-json-parcial.md): cenários de verificação e limitações do marco.
+- [Documentação anterior preservada](docs/readme-anterior-2026-10-31.md): histórico detalhado, versões anteriores e decisões.
 
-Também continuam pendentes a saída por menu, o limite de dois cadastros, a apresentação de empresas com `capitalize()` e a simplificação de trechos redundantes. O contador de tentativas inválidas ainda é reiniciado por cadastro e não é exibido.
-
-O [registro técnico de 21/10](docs/2026-10-21-json-parcial.md) contém a matriz dos cenários, o histórico das mudanças e os critérios para concluir a recuperação no principal. As verificações usaram arquivos temporários e o código original, sem alterar a lógica do autor. Não constituem uma suíte permanente incluída no projeto.
-
-## Histórico de evolução
-
-| Versão | Data | Etapa | Referência |
-| --- | --- | --- | --- |
-| `v0.0.1-prototype` | 24/09/2026 | Entrada de empresa e status, validação e exibição em módulos. | [Versão preservada](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/historico/v0.0.1-prototype). |
-| `v0.0.2-prototype` | 28/09/2026 | Validação de empresa e exercícios 4 e 5. | [Versão preservada](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/historico/v0.0.2-prototype) e [registro](docs/2026-09-28-validacao-empresa.md). |
-| `v0.0.3-prototype` | 02/10/2026 | Limpeza e normalização de entradas. | [Versão preservada](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/historico/v0.0.3-prototype) e [registro](docs/2026-10-02-normalizacao-entradas.md). |
-| `v0.0.4-wip` | 07/10/2026 | Cargo, duas candidaturas e edição parcial. | [Versão preservada](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/historico/v0.0.4-wip) e [registro](docs/2026-10-07-cadastro-memoria-edicao-parcial.md). |
-| `v0.0.5-prototype` | 08/10/2026 | Edição validada dos três campos em memória. | [Versão preservada](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/historico/v0.0.5-prototype) e [registro](docs/2026-10-08-edicao-validada.md). |
-| `v0.0.6-prototype` | 21/10/2026 | Gravação JSON no principal, contagens e leitura em script separado. | Código atual e [registro desta revisão](docs/2026-10-21-json-parcial.md). |
-
-O [CHANGELOG](CHANGELOG.md) mantém os registros anteriores. Os commits de código entre 13 e 21/10 foram feitos pelo autor e preservados nesta publicação. A [imagem de demonstração](docs/demonstracao.png) continua correspondendo à primeira versão.
-
-## Próxima etapa: recuperar e preservar os dados
-
-- Unificar o arquivo e o caminho utilizados para salvar e carregar.
-- Carregar as candidaturas ao iniciar, antes de decidir cadastrar ou editar.
-- Recuperar os registros sem exigir dois novos cadastros e manter os anteriores ao salvar novas alterações.
-- Tratar arquivo ausente, JSON inválido e erros de gravação no fluxo principal.
-- Validar a estrutura carregada e atualizar o resumo quando os dados mudarem.
-- Conferir o ciclo: cadastrar, salvar, encerrar, reabrir, listar os mesmos registros, editar, encerrar e reabrir novamente.
-
-A gravação e a leitura separada já justificam este marco de estudo. A conclusão da persistência no fluxo principal depende de verificar o ciclo acima. Menu, exclusão e banco de dados permanecem evoluções futuras.
+Os exemplos desta apresentação e o teste incluído foram conferidos em Python 3.12.14. As verificações históricas estão identificadas nos registros técnicos.
