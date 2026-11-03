@@ -3,11 +3,57 @@ from modulos import *
 status_validos = ('Opções de status: enviada, entrevista, recusada \n')
 empresas_a_cadastrar = 1
 empresas_cadastradas = []
+try:
+    empresas_cadastradas = carregar_candidaturas(CAMINHO_CANDIDATURAS)
+except FileNotFoundError:
+    print(f'Arquivo não encontrado: {CAMINHO_CANDIDATURAS}')
+    empresas_cadastradas = []
+
+except json.JSONDecodeError:
+    print(f'Arquivo: {CAMINHO_CANDIDATURAS}')
+    print('O arquivo está vazio ou contém JSON inválido.')
+    print('Confira o conteúdo antes de tentar novamente.')
+    raise SystemExit('Erro na leitura do JSON ou está vazio')
+else:
+    resumo = resumir_candidaturas(empresas_cadastradas)
+    print("\n=== Candidaturas recuperadas ===")
+    if resumo['total'] == 0:
+        print('Nenhuma candidatura cadastrada.')
+            
+    print(f'Total de candidaturas: {resumo['total']}')
+    print(f'Candidaturas em entrevista: {resumo['entrevistas']}\n')
+    for n in empresas_cadastradas:
+        exibir_candidatura(n['empresa'], n['status'], n['cargo'])
 
 if not tratar_lista(empresas_cadastradas):
     print('Nenhuma empresa foi cadastrada.')  
 
-while empresas_a_cadastrar <= 2:
+menu = ('1 - Cadastrar',
+        '0 - Continuar sem cadastrar')
+while True:
+    print("\n=== Menu ===")
+    for opcao in menu:
+        print(opcao)
+
+    escolha = input("\nEscolha uma opção: ")
+    try:
+        escolha = int(escolha)
+    except ValueError:
+        print('Digite um valor inteiro valido!')
+        continue
+    if escolha == 1:
+        break
+    elif escolha == 0:
+        if len(empresas_cadastradas) == 0:
+            raise SystemExit('Saindo')
+        else:
+            empresas_a_cadastrar = 2
+            break
+    else:
+        print('Digite os valores 1 ou 0')
+        continue
+
+while empresas_a_cadastrar <= 1:
 
     while True:
         empresa = input('Qual empresa você candidatou: ')
@@ -47,22 +93,11 @@ while empresas_a_cadastrar <= 2:
     candidatura['cargo'] = cargo
     candidatura['status'] = status
     empresas_cadastradas.append(candidatura)
+    salvar_candidaturas(empresas_cadastradas, caminho=CAMINHO_CANDIDATURAS)
     empresas_a_cadastrar += 1
 
-em_entrevista = contar_entrevistas(empresas_cadastradas)
-print('')
-print(f'Total de candidaturas: {len(empresas_cadastradas)}')
-print(f'Candidaturas em entrevista: {em_entrevista}\n')
-
-if tratar_lista(empresas_cadastradas):
-    for emprise in empresas_cadastradas:
-        exibir_candidatura(emprise['empresa'],emprise['status'],emprise['cargo'])
-else:
-    print('Nenhuma empresa foi cadastrada.')
-
-salvar_candidaturas(empresas_cadastradas, caminho="candidaturas_treino.json")
-
 while True:
+    print("\n=== Editar candidatura ===")
     n = 1
     for emprise in empresas_cadastradas:
         print(f'Candidatura: {n}')
@@ -99,7 +134,7 @@ while True:
                 continue
             else:
                 empresas_cadastradas[indice]['empresa'] = nova_empresa
-                salvar_candidaturas(empresas_cadastradas, caminho="candidaturas_treino.json")
+                salvar_candidaturas(empresas_cadastradas, caminho=CAMINHO_CANDIDATURAS)
                 break
 
     if valor == 2:
@@ -113,7 +148,7 @@ while True:
                 else:
                     break
             empresas_cadastradas[indice]['cargo'] = novo_cargo
-            salvar_candidaturas(empresas_cadastradas, caminho="candidaturas_treino.json")
+            salvar_candidaturas(empresas_cadastradas, caminho=CAMINHO_CANDIDATURAS)
             break            
 
     if valor == 3:
@@ -127,7 +162,7 @@ while True:
                 continue
             else:
                 empresas_cadastradas[indice]['status'] = novo_status
-                salvar_candidaturas(empresas_cadastradas, caminho="candidaturas_treino.json")
+                salvar_candidaturas(empresas_cadastradas, caminho=CAMINHO_CANDIDATURAS)
                 break
 
     if not valor:
