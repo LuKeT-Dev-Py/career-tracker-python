@@ -1,5 +1,26 @@
 # Histórico de evolução
 
+## v0.1.0: 03/11/2026
+
+O programa principal recupera as candidaturas na abertura. Cadastro e edição usam o mesmo arquivo JSON e preservam os registros entre sessões.
+
+### Implementado pelo autor
+
+- Leitura automática e resumo dos dados salvos ao abrir o programa principal.
+- Menu inicial para cadastrar uma nova candidatura ou continuar com os dados recuperados.
+- Gravação de cadastros e edições no mesmo arquivo, com caminho baseado na pasta do programa.
+- Função para contar candidaturas e entrevistas, com teste de lista vazia em `teste.py`.
+
+### Ajustes da publicação
+
+- Validação da estrutura do JSON e mensagens para falhas de leitura e gravação.
+- Gravação por arquivo temporário antes da substituição do JSON anterior.
+- Opção de saída na tela de edição e regras para o Git ignorar os arquivos de dados locais.
+- README com instruções e demonstração do ciclo de recuperação.
+- Sete testes aprovados com Python 3.12.14, incluindo recuperação em novas sessões, entradas inválidas e preservação do arquivo em uma falha de gravação simulada.
+
+Veja o [registro técnico desta versão](docs/2026-11-03-persistencia-json.md) e a [v0.0.6 preservada](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/historico/v0.0.6-prototype).
+
 ## v0.0.6-prototype: 21/10/2026
 
 Gravação JSON no programa principal, leitura em conferência independente e contagem de entrevistas. A recuperação automática na inicialização ainda está pendente.
