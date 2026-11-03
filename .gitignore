@@ -7,3 +7,8 @@ venv/
 .idea/
 .vscode/
 .DS_Store
+
+# Arquivos locais de candidaturas
+/career_tracker/candidaturas_treino.json
+/career_tracker/candidaturas_laboratorio.json
+/career_tracker/.candidaturas_*.json.*.tmp

@@ -1,4 +1,7 @@
-from candidaturas.operacoes import carregar_candidaturas, exibir_candidatura, contar_entrevistas, resumir_candidaturas
+from candidaturas.operacoes import (
+    EstruturaCandidaturasInvalida, carregar_candidaturas, exibir_candidatura,
+    resumir_candidaturas,
+)
 import json
 from configuracoes import CAMINHO_CONFERENCIA
 
@@ -14,6 +17,9 @@ def executar_conferencia(caminho=CAMINHO_CONFERENCIA):
         print(f'Arquivo: {caminho}')
         print('O arquivo está vazio ou contém JSON inválido.')
         print('Confira o conteúdo antes de tentar novamente.')
+
+    except (EstruturaCandidaturasInvalida, OSError, UnicodeError) as erro:
+        print(f'Não foi possível ler {caminho}: {erro}')
 
     else:
         resumo = resumir_candidaturas(candidaturas_recuperadas)

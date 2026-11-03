@@ -1,19 +1,31 @@
 from modulos import *
 
+
+def gravar_alteracoes(candidaturas):
+    try:
+        salvar_candidaturas(candidaturas, caminho=CAMINHO_CANDIDATURAS)
+    except OSError as erro:
+        print(f'Não foi possível salvar a alteração: {erro}')
+        raise SystemExit(1) from None
+
+
 status_validos = ('Opções de status: enviada, entrevista, recusada \n')
 empresas_a_cadastrar = 1
 empresas_cadastradas = []
 try:
     empresas_cadastradas = carregar_candidaturas(CAMINHO_CANDIDATURAS)
 except FileNotFoundError:
-    print(f'Arquivo não encontrado: {CAMINHO_CANDIDATURAS}')
+    print('Nenhum arquivo de candidaturas ainda. Você pode começar um cadastro.')
     empresas_cadastradas = []
 
 except json.JSONDecodeError:
     print(f'Arquivo: {CAMINHO_CANDIDATURAS}')
     print('O arquivo está vazio ou contém JSON inválido.')
     print('Confira o conteúdo antes de tentar novamente.')
-    raise SystemExit('Erro na leitura do JSON ou está vazio')
+    raise SystemExit(1) from None
+except (EstruturaCandidaturasInvalida, OSError, UnicodeError) as erro:
+    print(f'Não foi possível ler {CAMINHO_CANDIDATURAS}: {erro}')
+    raise SystemExit(1) from None
 else:
     resumo = resumir_candidaturas(empresas_cadastradas)
     print("\n=== Candidaturas recuperadas ===")
@@ -45,7 +57,8 @@ while True:
         break
     elif escolha == 0:
         if len(empresas_cadastradas) == 0:
-            raise SystemExit('Saindo')
+            print('Sessão encerrada.')
+            raise SystemExit(0)
         else:
             empresas_a_cadastrar = 2
             break
@@ -93,7 +106,7 @@ while empresas_a_cadastrar <= 1:
     candidatura['cargo'] = cargo
     candidatura['status'] = status
     empresas_cadastradas.append(candidatura)
-    salvar_candidaturas(empresas_cadastradas, caminho=CAMINHO_CANDIDATURAS)
+    gravar_alteracoes(empresas_cadastradas)
     empresas_a_cadastrar += 1
 
 while True:
@@ -105,10 +118,14 @@ while True:
         n += 1
         
     while True:
+        print('0 - Sair')
         alteracao = input('Qual candidatura deseja alterar: ')
 
         try:
             alteracao = int(alteracao)
+            if alteracao == 0:
+                print('Sessão encerrada.')
+                raise SystemExit(0)
             if selecao_valida(alteracao, len(empresas_cadastradas)):
                 indice = alteracao - 1
             else:
@@ -134,7 +151,7 @@ while True:
                 continue
             else:
                 empresas_cadastradas[indice]['empresa'] = nova_empresa
-                salvar_candidaturas(empresas_cadastradas, caminho=CAMINHO_CANDIDATURAS)
+                gravar_alteracoes(empresas_cadastradas)
                 break
 
     if valor == 2:
@@ -148,7 +165,7 @@ while True:
                 else:
                     break
             empresas_cadastradas[indice]['cargo'] = novo_cargo
-            salvar_candidaturas(empresas_cadastradas, caminho=CAMINHO_CANDIDATURAS)
+            gravar_alteracoes(empresas_cadastradas)
             break            
 
     if valor == 3:
@@ -162,7 +179,7 @@ while True:
                 continue
             else:
                 empresas_cadastradas[indice]['status'] = novo_status
-                salvar_candidaturas(empresas_cadastradas, caminho=CAMINHO_CANDIDATURAS)
+                gravar_alteracoes(empresas_cadastradas)
                 break
 
     if not valor:
