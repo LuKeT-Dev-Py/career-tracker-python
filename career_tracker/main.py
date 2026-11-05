@@ -109,7 +109,33 @@ while empresas_a_cadastrar <= 1:
     gravar_alteracoes(empresas_cadastradas)
     empresas_a_cadastrar += 1
 
+editar = True
+menu = ('1 - Editar',
+        '0 - Continuar sem editar')
 while True:
+    print("\n=== Menu ===")
+    for opcao in menu:
+        print(opcao)
+
+    escolha = input("\nEscolha uma opção: ")
+    try:
+        escolha = int(escolha)
+    except ValueError:
+        print('Digite um valor inteiro valido!')
+        continue
+    if escolha == 1:
+        break
+    elif escolha == 0:
+        if len(empresas_cadastradas) == 0:
+            raise SystemExit('Saindo')
+        else:
+            editar = False
+            break
+    else:
+        print('Digite os valores 1 ou 0')
+        continue
+
+while editar:
     print("\n=== Editar candidatura ===")
     n = 1
     for emprise in empresas_cadastradas:
@@ -118,7 +144,9 @@ while True:
         n += 1
         
     while True:
-        print('0 - Sair')
+
+
+        print('0 = Sair')
         alteracao = input('Qual candidatura deseja alterar: ')
 
         try:
@@ -127,6 +155,9 @@ while True:
                 print('Sessão encerrada.')
                 raise SystemExit(0)
             if selecao_valida(alteracao, len(empresas_cadastradas)):
+                print('Saindo')
+                raise SystemExit(0)
+            elif selecao_valida(alteracao, len(empresas_cadastradas)):
                 indice = alteracao - 1
             else:
                 print('Digite um valor valido para quantidade de vagas cadastradas.')
