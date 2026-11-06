@@ -80,7 +80,15 @@ python3 -m unittest -v teste test_persistencia
 
 No Windows, você pode usar `py -m unittest -v teste test_persistencia`.
 
-A versão passou em **7 testes com Python 3.12.14**. O teste original verifica o resumo de uma lista vazia. Os testes da publicação cobrem cadastro e edição em sessões distintas, recuperação dos dados, arquivo inválido, entradas rejeitadas e preservação do JSON anterior em uma falha de gravação simulada. Eles usam diretórios temporários.
+Na publicação de 03/11/2026, **o assistente executou 7 testes com Python 3.12.14**. O arquivo `teste.py` verifica o resumo de uma lista vazia; `test_persistencia.py` cobre cadastro e edição em sessões distintas, recuperação dos dados, arquivos inválidos, entradas rejeitadas e preservação do JSON anterior em uma falha de gravação simulada. Esses resultados se referem à verificação do assistente naquela publicação. Execuções realizadas e confirmadas por mim devem ser identificadas separadamente.
+
+## Uso de IA e revisão dos testes
+
+A IA auxiliou na elaboração da suíte `career_tracker/test_persistencia.py` e nas verificações do projeto. Esse arquivo foi acrescentado pelo assistente em 03/11/2026, no [commit `e851996`](https://github.com/LuKeT-Dev-Py/career-tracker-python/commit/e851996796d1500a02c6471bf24cbeae7cdca8b0), e não foi escrito originalmente por mim. Essa atribuição se refere a essa suíte; a origem dos demais testes deve ser considerada individualmente. O histórico preserva as implementações que desenvolvi e as contribuições do assistente.
+
+Já estudei a base de `unittest` e consigo acompanhar o fluxo, mas a leitura detalhada desse arquivo ainda está pendente. Reservei a semana de **09 a 13/11/2026**, começando na segunda-feira, para uma [análise guiada](docs/revisao-guiada-test_persistencia.md) no lugar do exercício 6 da prática diária. Os exercícios 1–5 e o miniprojeto semanal continuam normalmente.
+
+A revisão avançará conforme minha compreensão. A data prevista e um resultado `OK` na execução, por si só, não significam que concluí a leitura ou compreendi todos os cenários.
 
 ## Escopo e histórico
 
