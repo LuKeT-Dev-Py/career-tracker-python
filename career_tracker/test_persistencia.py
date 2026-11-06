@@ -42,6 +42,7 @@ class TestPersistencia(unittest.TestCase):
 
         segunda = self.rodar(
             "1", "Beta", "Dev Python", "enviada",
+            "1",
             "1", "empresa", "Acme",
             "1", "cargo", "Estágio Python",
             "1", "status", " Entrevista ", "0",
@@ -96,7 +97,7 @@ class TestPersistencia(unittest.TestCase):
     def test_entrada_invalida_nao_altera_candidatura(self):
         salvo = b'[{"empresa":"Acme","cargo":"Dev","status":"enviada"}]'
         self.arquivo.write_bytes(salvo)
-        resultado = self.rodar("texto", "4", "0", "2", "1", "outro", "0")
+        resultado = self.rodar("texto", "4", "0","1" "2", "1", "outro", "0")
         self.assertEqual(resultado.returncode, 0, resultado.stderr)
         self.assertIn("Digite um valor inteiro", resultado.stdout)
         self.assertIn("Valor invalido.", resultado.stdout)

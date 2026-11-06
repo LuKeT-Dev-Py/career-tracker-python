@@ -154,9 +154,6 @@ while editar:
             if alteracao == 0:
                 print('Sessão encerrada.')
                 raise SystemExit(0)
-            if selecao_valida(alteracao, len(empresas_cadastradas)):
-                print('Saindo')
-                raise SystemExit(0)
             elif selecao_valida(alteracao, len(empresas_cadastradas)):
                 indice = alteracao - 1
             else:
