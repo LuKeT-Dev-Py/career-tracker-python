@@ -8,7 +8,7 @@ import unittest
 from unittest.mock import patch
 
 from candidaturas.operacoes import salvar_candidaturas
-
+from candidaturas.operacoes import salvar_candidaturas, resumir_candidaturas
 
 class TestPersistencia(unittest.TestCase):
     def setUp(self):
@@ -42,8 +42,7 @@ class TestPersistencia(unittest.TestCase):
 
         segunda = self.rodar(
             "1", "Beta", "Dev Python", "enviada",
-            "1",
-            "1", "empresa", "Acme",
+            "1", "1", "empresa", "Acme",
             "1", "cargo", "Estágio Python",
             "1", "status", " Entrevista ", "0",
         )
@@ -97,7 +96,7 @@ class TestPersistencia(unittest.TestCase):
     def test_entrada_invalida_nao_altera_candidatura(self):
         salvo = b'[{"empresa":"Acme","cargo":"Dev","status":"enviada"}]'
         self.arquivo.write_bytes(salvo)
-        resultado = self.rodar("texto", "4", "0","1" "2", "1", "outro", "0")
+        resultado = self.rodar("texto", "4", "0","1", "2", "1", "outro", "0")
         self.assertEqual(resultado.returncode, 0, resultado.stderr)
         self.assertIn("Digite um valor inteiro", resultado.stdout)
         self.assertIn("Valor invalido.", resultado.stdout)
@@ -110,7 +109,17 @@ class TestPersistencia(unittest.TestCase):
                 salvar_candidaturas([{"empresa": "Acme"}], self.arquivo)
         self.assertEqual(self.arquivo.read_bytes(), b"[]")
         self.assertFalse(list(self.projeto.glob(".*.tmp")))
+class TestResumoCandidaturas(unittest.TestCase):
+    def test_resumo_com_empresa_repetida(self):
+        candidaturas = [
+            {"empresa": "Acme", "cargo": "Estágio", "status": "enviada"},
+            {"empresa": "Acme", "cargo": "Dev", "status": "entrevista"},
+            {"empresa": "Beta", "cargo": "Suporte", "status": "recusada"},
+        ]
 
+        obtido = resumir_candidaturas(candidaturas)
+        esperado = {"total": 3, "entrevistas": 1}
+        self.assertEqual(obtido, esperado)
 
 if __name__ == "__main__":
     unittest.main()
