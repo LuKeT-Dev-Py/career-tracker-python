@@ -87,7 +87,7 @@ O arquivo `test_persistencia.py` reúne sete testes em duas classes.
 
 Na publicação de 03/11/2026, o assistente registrou sete testes aprovados com Python 3.12.14. Na verificação de 24/11/2026, o assistente executou os sete testes atuais com Python 3.12.3 e todos passaram.
 
-A confirmação de uma execução feita por mim fica pendente de registro.
+Em 24/11/2026, executei os sete testes com python3 -B -m unittest -v test_persistencia, e todos passaram. A atualização desta seção foi proposta pela IA e revisada diretamente por mim.
 
 ## Uso de IA e revisão dos testes
 
