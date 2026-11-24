@@ -72,15 +72,22 @@ O script de conferência continua disponível para estudo. Por padrão, ele lê 
 
 ## Testes
 
-Dentro da pasta `career_tracker`, execute:
+Na raiz do repositório, entre na pasta `career_tracker` com `cd career_tracker`. De dentro dessa pasta, execute a suíte com `unittest`.
 
 ```bash
-python3 -m unittest -v teste test_persistencia
+python3 -B -m unittest -v test_persistencia
 ```
 
-No Windows, você pode usar `py -m unittest -v teste test_persistencia`.
+No Windows, na mesma pasta `career_tracker`, execute `py -B -m unittest -v test_persistencia`.
 
-Na publicação de 03/11/2026, **o assistente executou 7 testes com Python 3.12.14**. O arquivo `teste.py` verifica o resumo de uma lista vazia; `test_persistencia.py` cobre cadastro e edição em sessões distintas, recuperação dos dados, arquivos inválidos, entradas rejeitadas e preservação do JSON anterior em uma falha de gravação simulada. Esses resultados se referem à verificação do assistente naquela publicação. Execuções realizadas e confirmadas por mim devem ser identificadas separadamente.
+O arquivo `test_persistencia.py` reúne sete testes em duas classes.
+
+- `TestPersistencia` contém seis testes criados com auxílio da IA. Eles verificam cadastro, edição e recuperação em execuções distintas, primeiro uso sem cadastro, leitura e preservação da lista vazia, rejeição de arquivos inválidos com preservação do conteúdo, rejeição de entradas inválidas e preservação do JSON anterior quando a substituição do arquivo falha.
+- `TestResumoCandidaturas` contém o teste que implementei com orientação. Ele verifica o total de três candidaturas e a contagem de uma entrevista, com duas candidaturas para a mesma empresa.
+
+Na publicação de 03/11/2026, o assistente registrou sete testes aprovados com Python 3.12.14. Na verificação de 24/11/2026, o assistente executou os sete testes atuais com Python 3.12.3 e todos passaram.
+
+A confirmação de uma execução feita por mim fica pendente de registro.
 
 ## Uso de IA e revisão dos testes
 
