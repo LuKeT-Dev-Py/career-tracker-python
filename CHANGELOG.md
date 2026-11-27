@@ -1,5 +1,26 @@
 # Histórico de evolução
 
+## Atualizações após a v0.1.0: estado em 27/11/2026
+
+### Evolução na branch principal
+
+- Menus separados para cadastrar e escolher se deseja editar.
+- Testes concentrados em `career_tracker/test_persistencia.py`; os antigos `teste.py` e `conferir_carregamento.py` já não fazem parte do código atual.
+- Teste de resumo com empresa repetida acrescentado em [23/11](https://github.com/LuKeT-Dev-Py/career-tracker-python/commit/dbdf986510c59a8e0849eacae6984530b83c8162).
+- Teste de limites da seleção acrescentado em [27/11](https://github.com/LuKeT-Dev-Py/career-tracker-python/commit/2d73dc3d3a689ba4bc1974d352d4c66ef7956d20).
+- A suíte atual reúne oito testes em três classes.
+
+### Revisão da documentação em 27/11
+
+- README reorganizado com funcionalidades, instruções para os dois menus e demonstração de persistência.
+- Referências de execução corrigidas para os arquivos que existem atualmente.
+- Novo [índice da documentação](docs/README.md) e [guia dos testes](docs/TESTES.md).
+- Participação da IA e registros de execução do autor e do assistente identificados separadamente.
+- Planejamento de análise de novembro mantido como histórico, sem presumir conclusão da revisão integral.
+- O assistente executou os oito testes atuais com Python 3.12.14; todos passaram. Também conferiu a demonstração do README em uma cópia temporária.
+
+Esta revisão publica somente documentação. Código, testes, dados, configurações e registros das versões anteriores são preservados; não há uma nova versão funcional.
+
 ## v0.1.0: 03/11/2026
 
 O programa principal recupera as candidaturas na abertura. Cadastro e edição usam o mesmo arquivo JSON e preservam os registros entre sessões.

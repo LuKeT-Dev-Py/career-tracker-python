@@ -1,14 +1,23 @@
 # Career Tracker
 
-Career Tracker é um programa de terminal em Python para acompanhar candidaturas a vagas. Você registra a empresa, o cargo e o status, consulta o que já cadastrou e atualiza cada candidatura conforme o processo avança.
+Aplicação de terminal em Python para organizar candidaturas a vagas. Permite cadastrar empresa, cargo e status, consultar os registros e atualizar uma candidatura conforme o processo seletivo avança. Os dados ficam em um arquivo JSON local e são recuperados na próxima execução.
 
-**Versão v0.1.0 · 03/11/2026.** O programa agora recupera as candidaturas ao abrir e salva alterações no mesmo arquivo JSON. Dá para encerrar, voltar mais tarde e continuar de onde parou.
+É meu projeto principal de estudo em Python. Começou com registros em memória e evoluiu para persistência entre sessões, tratamento de erros e testes automatizados. O histórico registra minhas implementações e as contribuições feitas com apoio de IA.
 
-É meu projeto principal de estudo em Python. Comecei com uma lista que durava só durante a execução e evoluí o programa até recuperar os registros de uma sessão para outra. Usei o projeto para praticar organização em módulos, validação de entradas, tratamento de erros, leitura e gravação de arquivos e testes com `unittest`.
+**Em desenvolvimento · Python 3.12+ · JSON · unittest**
+
+## Funcionalidades
+
+- Cadastrar candidaturas com os status `enviada`, `entrevista` ou `recusada`.
+- Listar os registros e editar empresa, cargo ou status da candidatura escolhida.
+- Recuperar os dados ao abrir e salvar cadastros e edições no mesmo arquivo.
+- Mostrar o total de candidaturas e de entrevistas na abertura.
+- Rejeitar campos vazios, status inválidos e seleções inexistentes ou não numéricas.
+- Informar problemas de leitura e preservar o JSON anterior se a substituição do arquivo falhar.
 
 ## Como executar
 
-Use **Python 3.12 ou superior**. O programa usa apenas a biblioteca padrão.
+Requer **Python 3.12 ou superior**. O projeto usa somente a biblioteca padrão, sem instalação de dependências externas.
 
 ```bash
 git clone https://github.com/LuKeT-Dev-Py/career-tracker-python.git
@@ -16,18 +25,23 @@ cd career-tracker-python/career_tracker
 python3 main.py
 ```
 
-No Windows, dentro da mesma pasta, use `py main.py` ou `python main.py`, conforme sua instalação.
+No Windows, dentro da mesma pasta, use `py main.py` ou `python main.py`, conforme sua instalação. Confira a versão do interpretador com `py --version` ou `python --version`.
 
-1. Ao abrir, o programa mostra as candidaturas recuperadas e quantas estão em entrevista. No primeiro uso, ele informa que ainda não há arquivo.
-2. Digite `1` para cadastrar uma candidatura. Informe empresa, cargo e um dos status: `enviada`, `entrevista` ou `recusada`. Também é possível escolher `0` para continuar com os dados que já existem.
-3. Na tela de edição, digite o número da candidatura e o campo que deseja alterar: `empresa`, `cargo` ou `status`.
-4. Digite `0` na tela de edição para encerrar. Cadastros e edições válidas são salvos no momento da alteração.
+### Navegação no terminal
 
-O programa pede novamente quando a empresa ou o cargo está vazio, o status não é aceito ou o número da candidatura não existe. Espaços nas extremidades são removidos, e um status como ` ENTREVISTA ` é aceito como `entrevista`.
+1. Na abertura, confira os registros recuperados. No primeiro uso, o programa informa que ainda não há arquivo.
+2. No primeiro menu, digite `1` para cadastrar uma nova candidatura ou `0` para continuar sem cadastrar. Se não houver registros e você escolher `0`, a sessão é encerrada.
+3. No segundo menu, digite `1` para editar ou `0` para encerrar sem editar.
+4. Na edição, escolha o número da candidatura e informe o campo por extenso: `empresa`, `cargo` ou `status`.
+5. Digite o novo valor. O programa salva a alteração e mostra a listagem atualizada. Na próxima seleção de candidatura, `0` encerra a sessão.
 
-## Experimente salvar e recuperar
+Uma entrada como ` ENTREVISTA ` é normalizada para `entrevista`. Valores inválidos geram uma nova tentativa antes da atualização do registro.
 
-Cadastre uma empresa fictícia chamada **Acme**, com o cargo **Estágio Python** e o status **enviada**. Na edição, escolha a candidatura `1`, informe o campo `status` e mude para `entrevista`. Saia com `0` e execute `python3 main.py` novamente. A abertura deve mostrar:
+## Demonstração: salvar, encerrar e recuperar
+
+Em uma instalação sem registros, escolha `1` no primeiro menu e cadastre os dados fictícios **Acme / Estágio Python / enviada**. No segundo menu, escolha `1` para editar. Selecione a candidatura `1`, o campo `status` e informe `entrevista`. Saia com `0` na próxima seleção.
+
+Execute `python3 main.py` novamente. A abertura apresenta:
 
 ```text
 === Candidaturas recuperadas ===
@@ -37,71 +51,57 @@ Candidaturas em entrevista: 1
 Empresa: Acme | Cargo: Estágio Python | Status: Entrevista
 ```
 
-Ao escolher `0` no menu inicial, você segue para a edição sem cadastrar outra vaga. Se escolher cadastrar em uma próxima sessão, o novo registro é acrescentado aos anteriores.
+Para apenas consultar e encerrar, escolha `0` nos dois menus. Se optar por cadastrar em uma próxima sessão, o novo registro será acrescentado aos anteriores.
 
-## Onde ficam os dados
+## Armazenamento dos dados
 
-O programa principal lê e grava `career_tracker/candidaturas_treino.json`. O caminho parte da pasta do código, por isso executar o programa em outro diretório não cria uma segunda cópia por engano. Os dados ficam no computador e esse arquivo é ignorado pelo Git.
+O programa lê e grava `career_tracker/candidaturas_treino.json`. O caminho é definido a partir da pasta do código; iniciar o script de outro diretório não muda o destino. Esse arquivo é local, é criado durante o uso e está no `.gitignore`.
 
-Cada candidatura guarda três campos:
+O JSON contém uma lista de objetos com `empresa`, `cargo` e `status`. O conteúdo `[]` é uma lista vazia válida. Arquivos sem conteúdo, malformados ou com registros incompatíveis são recusados antes de qualquer gravação. Para salvar, o programa escreve em um arquivo temporário e depois substitui o anterior.
 
-```json
-{
-  "empresa": "Acme",
-  "cargo": "Estágio Python",
-  "status": "entrevista"
-}
-```
-
-O arquivo inteiro contém uma lista desses registros. O conteúdo `[]` é uma lista vazia válida. Um arquivo sem conteúdo, com JSON malformado ou com registros incompletos faz o programa avisar e encerrar, preservando o arquivo para conferência. Ao salvar, o programa escreve primeiro em um arquivo temporário e só depois substitui o JSON anterior.
-
-Se uma versão antiga gravou seus dados em outra pasta, localize o arquivo antigo antes de iniciar novos cadastros. Para reutilizá-lo, coloque uma cópia de `candidaturas_treino.json` ao lado de `main.py`, conferindo se já existe um arquivo nesse local.
-
-## Organização do código
-
-| Arquivo | Responsabilidade |
-| --- | --- |
-| [main.py](career_tracker/main.py) | Abre os dados salvos, conduz o cadastro e a edição e chama a gravação. |
-| [candidaturas/operacoes.py](career_tracker/candidaturas/operacoes.py) | Lê, valida e grava JSON. Também exibe, seleciona e resume candidaturas. |
-| [configuracoes.py](career_tracker/configuracoes.py) | Define os caminhos dos arquivos de dados. |
-| [validacoes/](career_tracker/validacoes) | Confere o preenchimento da empresa e normaliza e valida o status. |
-| [modulos.py](career_tracker/modulos.py) | Reúne as importações usadas pelo programa principal. |
-| [conferir_carregamento.py](career_tracker/conferir_carregamento.py) | Lê um arquivo de laboratório e mostra o resumo. Registra a etapa em que pratiquei a leitura antes de integrar ao principal. |
-
-O script de conferência continua disponível para estudo. Por padrão, ele lê `candidaturas_laboratorio.json` ao lado de `main.py`. Esse arquivo é opcional e separado dos dados do programa. Para experimentar, crie ali um JSON com `[]` e execute `python3 conferir_carregamento.py`.
+Se você usava uma versão antiga que gravava em outra pasta, confira a localização e o conteúdo do arquivo antes de copiá-lo para a pasta atual.
 
 ## Testes
 
-Na raiz do repositório, entre na pasta `career_tracker` com `cd career_tracker`. De dentro dessa pasta, execute a suíte com `unittest`.
+Dentro da pasta `career_tracker`, execute:
 
 ```bash
 python3 -B -m unittest -v test_persistencia
 ```
 
-No Windows, na mesma pasta `career_tracker`, execute `py -B -m unittest -v test_persistencia`.
+No Windows: `py -B -m unittest -v test_persistencia`.
 
-O arquivo `test_persistencia.py` reúne sete testes em duas classes.
+A suíte atual tem **8 testes em 3 classes**, cobrindo persistência, resumo e limites da seleção. Nesta revisão de documentação, em **27/11/2026**, o assistente executou os oito testes com Python 3.12.14 e todos passaram. Os testes de integração usam diretórios temporários.
 
-- `TestPersistencia` contém seis testes criados com auxílio da IA. Eles verificam cadastro, edição e recuperação em execuções distintas, primeiro uso sem cadastro, leitura e preservação da lista vazia, rejeição de arquivos inválidos com preservação do conteúdo, rejeição de entradas inválidas e preservação do JSON anterior quando a substituição do arquivo falha.
-- `TestResumoCandidaturas` contém o teste que implementei com orientação. Ele verifica o total de três candidaturas e a contagem de uma entrevista, com duas candidaturas para a mesma empresa.
+O [guia dos testes](docs/TESTES.md) explica os cenários, a origem das contribuições e os registros de execução. Ele distingue as verificações do assistente das execuções confirmadas pelo autor.
 
-Na publicação de 03/11/2026, o assistente registrou sete testes aprovados com Python 3.12.14. Na verificação de 24/11/2026, o assistente executou os sete testes atuais com Python 3.12.3 e todos passaram.
+## Organização do código
 
-Em 24/11/2026, executei os sete testes com python3 -B -m unittest -v test_persistencia, e todos passaram. A atualização desta seção foi proposta pela IA e revisada diretamente por mim.
+| Arquivo | Responsabilidade |
+| --- | --- |
+| [main.py](career_tracker/main.py) | Recuperação inicial, menus, cadastro e edição. |
+| [candidaturas/operacoes.py](career_tracker/candidaturas/operacoes.py) | Leitura e gravação JSON, validação da estrutura, seleção e resumo. |
+| [configuracoes.py](career_tracker/configuracoes.py) | Caminho do arquivo de candidaturas. |
+| [validacoes/](career_tracker/validacoes) | Limpeza da empresa e normalização e validação do status. |
+| [modulos.py](career_tracker/modulos.py) | Importações utilizadas pelo programa principal. |
+| [test_persistencia.py](career_tracker/test_persistencia.py) | Testes com `unittest`, incluindo execuções do programa em subprocessos. |
 
-## Uso de IA e revisão dos testes
+## Uso de IA e acompanhamento dos testes
 
-A IA auxiliou na elaboração da suíte `career_tracker/test_persistencia.py` e nas verificações do projeto. Esse arquivo foi acrescentado pelo assistente em 03/11/2026, no [commit `e851996`](https://github.com/LuKeT-Dev-Py/career-tracker-python/commit/e851996796d1500a02c6471bf24cbeae7cdca8b0), e não foi escrito originalmente por mim. Essa atribuição se refere a essa suíte; a origem dos demais testes deve ser considerada individualmente. O histórico preserva as implementações que desenvolvi e as contribuições do assistente.
+Os seis testes iniciais de persistência foram acrescentados pelo assistente de IA na [publicação de 03/11/2026](https://github.com/LuKeT-Dev-Py/career-tracker-python/commit/e851996796d1500a02c6471bf24cbeae7cdca8b0). A IA também auxiliou em ajustes e verificações do projeto. A suíte recebeu depois testes de resumo e seleção, com contribuições registradas no histórico; sua origem não deve ser atribuída integralmente a uma única pessoa.
 
-Já estudei a base de `unittest` e consigo acompanhar o fluxo, mas a leitura detalhada desse arquivo ainda está pendente. Reservei a semana de **09 a 13/11/2026**, começando na segunda-feira, para uma [análise guiada](docs/revisao-guiada-test_persistencia.md) no lugar do exercício 6 da prática diária. Os exercícios 1–5 e o miniprojeto semanal continuam normalmente.
+Já estudei a base de `unittest` e sigo acompanhando o arquivo. Uma execução bem-sucedida não comprova, por si só, a revisão completa da suíte. O [registro da análise guiada](docs/revisao-guiada-test_persistencia.md) mantém o planejamento original e os avanços documentados, sem presumir a conclusão da leitura.
 
-A revisão avançará conforme minha compreensão. A data prevista e um resultado `OK` na execução, por si só, não significam que concluí a leitura ou compreendi todos os cenários.
+## Escopo e próximos passos
 
-## Escopo e histórico
+O programa atende ao uso local e individual. Ainda permite cadastrar apenas uma nova candidatura por sessão; para registrar outra, é necessário reabrir. O resumo é calculado na abertura, e a exibição usa `capitalize()`, que pode mudar a capitalização de nomes como `IBM`.
 
-O Career Tracker é um programa local para uso individual. Nesta versão, é possível cadastrar uma nova candidatura por sessão e editar as existentes; para cadastrar outra, reabra o programa. O resumo é calculado na abertura. Exclusão, filtros e um menu para registrar várias candidaturas na mesma sessão ficam para evoluções futuras.
+Exclusão, filtros e um menu para vários cadastros na mesma sessão são melhorias futuras. O armazenamento atual é JSON local; não há integração com banco de dados nesta versão.
 
-- [CHANGELOG](CHANGELOG.md): mudanças de cada versão.
-- [Registro da v0.1.0](docs/2026-11-03-persistencia-json.md): comparação com o protótipo, decisões e resultados da verificação.
-- [v0.0.6-prototype](https://github.com/LuKeT-Dev-Py/career-tracker-python/tree/historico/v0.0.6-prototype): etapa em que o principal gravava em JSON e a leitura era feita em um script separado.
-- [Documentação anterior](docs/readme-anterior-2026-10-31.md): registro das etapas anteriores.
+## Documentação e histórico
+
+- [Índice da documentação](docs/README.md): orientações atuais e registros de evolução.
+- [CHANGELOG](CHANGELOG.md): marcos e alterações posteriores.
+- [Guia dos testes](docs/TESTES.md): cobertura e evidências de execução.
+
+Autor do projeto: [João Antônio Pires de Campos](https://github.com/LuKeT-Dev-Py).
