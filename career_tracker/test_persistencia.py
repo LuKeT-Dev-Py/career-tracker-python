@@ -7,8 +7,7 @@ from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
 
-from candidaturas.operacoes import salvar_candidaturas
-from candidaturas.operacoes import salvar_candidaturas, resumir_candidaturas
+from candidaturas.operacoes import salvar_candidaturas, resumir_candidaturas, selecao_valida
 
 class TestPersistencia(unittest.TestCase):
     def setUp(self):
@@ -120,6 +119,14 @@ class TestResumoCandidaturas(unittest.TestCase):
         obtido = resumir_candidaturas(candidaturas)
         esperado = {"total": 3, "entrevistas": 1}
         self.assertEqual(obtido, esperado)
+
+
+class TestSelecaoCandidatura(unittest.TestCase):
+    def test_limites(self):
+        self.assertEqual(selecao_valida(0, 2), False)
+        self.assertEqual(selecao_valida(1, 2), True)
+        self.assertEqual(selecao_valida(3, 2), False)
+
 
 if __name__ == "__main__":
     unittest.main()
